@@ -7,6 +7,10 @@
 struct ping_state{
 	int sockfd;
 
+	struct sockaddr *sasend;
+	struct sockaddr *sarecv;
+	socklen_t salen;
+
 	char *dest;
 	int datalen;
 
