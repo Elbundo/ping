@@ -1,4 +1,30 @@
 #include "setsock.h"
+#include "send.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+
+void preparing()
+{
+	switch(setup()){
+	case 0:
+		all_for_send();
+		break;
+	case 1:
+		printf("is 1\n");
+		break;
+	case 2:
+		printf("is 2\n");
+		break;
+	case 3:
+		printf("is 3\n");
+		break;
+	default:
+		printf("def\n");
+		break;
+	}
+}
 
 int setup()
 {
@@ -15,6 +41,8 @@ int setup()
 	if(ps.sockfd < 0)
 		return 3;
 	setuid(getuid());
+	signal(SIGALRM, sig_alarm);
+	signal(SIGINT, finalize);
 	ps.sasend = ai->ai_addr;
 	ps.sarecv = calloc(1, ai->ai_addrlen);
 	ps.salen = ai->ai_addrlen;

@@ -6,35 +6,33 @@ int parse_cmdline(int argc, char **argv){
 	char *outpack_fill = NULL;
 	while((opt = getopt(argc, argv, "c:i:p:t:vq")) != -1){
 		switch(opt){
-			case 'c':
-				ps.npackets = strtol_or_err(optarg, "invalid argument", 1, LONG_MAX);
-				break;
-			case 'i':
-			{
-				double optval = strtod_or_err(optarg, "bad timing interval", 0, (int)INT_MAX/1000);
-				ps.interval = (int)(optval * 1000);
-				ps.opt_interval = 1;
-			}
-				break;
-			case 'p':
-				ps.opt_pingfilled = 1;
-				outpack_fill = strdup(optarg);
-				if(!outpack_fill)
-					error(EXIT_FAILURE, errno, "memory allocation failed");
-				break;
-			case 't':
-				ps.ttl = strtol_or_err(optarg, "invalid argument", 0, 255);
-				ps.opt_ttl = 1;
-				break;
-			case 'v':
-				//printf("version\n");
-				exit(0);
-			case 'q':
-				ps.opt_quiet = 1;
-				break;
-			default:
-				exit(1);
-				break;
+		case 'c':
+			ps.opt_npackets = strtol_or_err(optarg, "invalid argument", 1, LONG_MAX);
+			break;
+		case 'i':
+		{
+			double optval = strtod_or_err(optarg, "bad timing interval", 0, (int)INT_MAX/1000);
+			ps.opt_interval = (int)(optval * 1000);
+		}
+			break;
+		case 'p':
+			//ps.opt_pingfilled = 1;
+			outpack_fill = strdup(optarg);
+			if(!outpack_fill)
+				error(EXIT_FAILURE, errno, "memory allocation failed");
+			break;
+		case 't':
+			ps.opt_ttl = strtol_or_err(optarg, "invalid argument", 0, 255);
+			break;
+		case 'v':
+			//printf("version\n");
+			exit(0);
+		case 'q':
+			ps.opt_quiet = 1;
+			break;
+		default:
+			exit(1);
+			break;
 		}
 	}
 	argc -= optind;

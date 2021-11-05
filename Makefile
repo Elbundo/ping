@@ -1,5 +1,5 @@
 CC = gcc
-SRCMODULES = prep.c setsock.c 
+SRCMODULES = prep.c setsock.c send.c recv.c 
 OBJMODULES = $(SRCMODULES:.c=.o)
 CFLAGS = -Wall -g -lm
 
