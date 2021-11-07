@@ -1,21 +1,12 @@
 #include "recv.h"
+#include "send.h"
 
-void all_for_recv()
-{
-	switch(readloop()){
-	case 0:
-		printf("ok!\n");
-		break;
-	default:
-		printf("recv.c error\n");
-		break;
-	}
-}
+#include <signal.h>
 
 int readloop()
 {
-	char recvbuf[1500];
-	char controlbuf[1500];
+	char recvbuf[BUFSIZE];
+	char controlbuf[BUFSIZE];
 	struct msghdr msg;
 	struct iovec iov;
 	ssize_t n;
@@ -37,11 +28,12 @@ int readloop()
 			else
 				printf("recvmsg error\n");
 		}
-		ps.nreceived++;
 		gettimeofday(&tval, NULL);
-		proc(recvbuf, n, &msg, &tval);
+		(*ps.proc)(recvbuf, n, &msg, &tval);
+		if(ps.opt_limpack && ps.ntransmitted == ps.opt_npackets)
+			finalize(SIGINT);
 	}
-	return 0;
+	return 1;
 }
 
 void tv_sub(struct timeval *out, struct timeval *in)
@@ -53,7 +45,7 @@ void tv_sub(struct timeval *out, struct timeval *in)
 	out->tv_sec -= in->tv_sec;
 }
 
-void proc(char *ptr, ssize_t len, struct msghdr *msg, struct timeval *tvrecv)
+void proc4(char *ptr, ssize_t len, struct msghdr *msg, struct timeval *tvrecv)
 {
 	int hlen1, icmplen;
 	double rtt;
@@ -73,10 +65,45 @@ void proc(char *ptr, ssize_t len, struct msghdr *msg, struct timeval *tvrecv)
 			return;
 		if(icmplen < 16)
 			return;
-
 		tvsend = (struct timeval *) icmp->icmp_data;
 		tv_sub(tvrecv, tvsend);
 		rtt = tvrecv->tv_sec * 1000.0 + tvrecv->tv_usec / 1000.0;
-		printf("%d bytes from %%s: seq=%u, ttl=%d, rtt=%.3f ms\n", icmplen, /*sock_ntop(ps.sarecv, ps.salen),*/ icmp->icmp_seq, ip->ip_ttl, rtt);
+		if(!ps.opt_quiet)
+			printf("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
+				icmplen, sock_ntop_host(ps.sarecv, ps.salen), icmp->icmp_seq, ip->ip_ttl, rtt);
+		ps.nreceived++;
+	}else if(icmp->icmp_type == ICMP_DEST_UNREACH){
+		switch(icmp->icmp_code){
+		case ICMP_NET_UNREACH:
+			printf("Destination Net Unreachable\n");
+			break;
+		case ICMP_HOST_UNREACH:
+			printf("Destination Host Unreachable\n");
+			break;
+		case ICMP_NET_UNKNOWN:
+			printf("Destination Net Unknown\n");
+			break;
+		case ICMP_HOST_UNKNOWN:
+			printf("Destination Host Unknown\n");
+			break;
+		case ICMP_HOST_ISOLATED:
+			printf("Source Host Isolated\n");
+			break;
+		default:
+			printf("Destination Unreachable, Bad Code: %d\n", icmp->icmp_code);
+			break;
+		}
+	}else if(icmp->icmp_type == ICMP_TIME_EXCEEDED){
+		switch(icmp->icmp_code){
+		case ICMP_EXC_TTL:
+			printf("Time to live exceeded\n");
+			break;
+		default:
+			printf("Time exceeded, Bad Code: %d\n", icmp->icmp_code);
+			break;
+		}
+	}else if(icmp->icmp_type == ICMP_ECHO){
+	}else{
+		printf("Bad ICMP type: %d\n", icmp->icmp_type);
 	}
 }

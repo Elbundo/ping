@@ -9,11 +9,17 @@
 #include <error.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "ping.h"
 
 int parse_cmdline(int, char**);
-long strtol_or_err(const char*, const char*, const long, const long);
-double strtod_or_err(const char*, const char*, const double, const double);
+void usage();
+int fill(char*, unsigned char*, size_t);
+int strtol_or_err(long*, const char*, const char*, const long, const long);
+int strtod_or_err(double*, const char*, const char*, const double, const double);
+
+#define ERR 1
+#define QUIT 2
 
 #endif

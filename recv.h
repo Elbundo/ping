@@ -11,10 +11,10 @@
 #include <errno.h>
 
 #include "ping.h"
+#include "setsock.h"
 
-void all_for_recv();
 int readloop();
 void tv_sub(struct timeval*, struct timeval*);
-void proc(char*, ssize_t, struct msghdr*, struct timeval*);
+void proc4(char*, ssize_t, struct msghdr*, struct timeval*);
 
 #endif

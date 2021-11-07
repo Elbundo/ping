@@ -14,8 +14,9 @@
 void all_for_send();
 void sig_alarm(int);
 void finalize(int);
-void send_echo();
-int set_timer();
+void build_icmphdr();
+void send4_echo();
+void set_timer();
 unsigned short in_cksum(unsigned short*, int);
 
 #endif

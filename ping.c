@@ -4,19 +4,18 @@
 #include "ping.h"
 #include "prep.h"
 #include "setsock.h"
+#include "states.h"
 
 struct ping_state ps = {0};
 
 int main(int argc, char *argv[])
 {
+/*Default options*/
+	ps.opt_interval = 1000;
+	ps.datalen = 56;
+	memset(ps.pattern, 0xd1, 84);
 	gettimeofday(&ps.start, NULL);
-	switch(parse_cmdline(argc, argv)){
-	case 0:
-		preparing();
-		break;
-	default:
-		printf("ping.c error\n");
-		break;
-	}
+/*---------------*/
+	parsing(argc, argv);
 	return 0;
 }
