@@ -19,7 +19,7 @@ int fill(char*, unsigned char*, size_t);
 int strtol_or_err(long*, const char*, const char*, const long, const long);
 int strtod_or_err(double*, const char*, const char*, const double, const double);
 
-#define ERR 1
+#define PARSE_ERR 1
 #define QUIT 2
 
 #endif

@@ -6,8 +6,8 @@ void parsing(int argc, char *argv[])
 	case OK:
 		getting_ip();
 		break;
-	case ERR:
-		printf("ping.c error\n");
+	case PARSE_ERR:
+//wrtie log
 		break;
 	case QUIT:
 		break;

@@ -11,7 +11,7 @@ int parse_cmdline(int argc, char **argv){
 			ps.opt_limpack = 1;
 			int err = strtol_or_err(&ps.opt_npackets, optarg, "invalid argument", 1, LONG_MAX);
 			if(err)
-				return ERR;
+				return PARSE_ERR;
 			break;
 		}
 		case 'i':
@@ -19,7 +19,7 @@ int parse_cmdline(int argc, char **argv){
 			double optval; 
 			int err = strtod_or_err(&optval, optarg, "bad timing interval", 0, (int)INT_MAX/1000);
 			if(err)
-				return ERR;
+				return PARSE_ERR;
 			ps.opt_interval = (int)(optval * 1000);
 			break;
 		}
@@ -27,7 +27,7 @@ int parse_cmdline(int argc, char **argv){
 			outpack_fill = strdup(optarg);
 			if(!outpack_fill){
 				printf("memory allocation failed\n");
-				return ERR;
+				return PARSE_ERR;
 			}
 			break;
 		case 't':
@@ -35,7 +35,7 @@ int parse_cmdline(int argc, char **argv){
 			long optval;
 			int err = strtol_or_err(&optval, optarg, "invalid argument", 0, 255);
 			if(err)
-				return ERR;
+				return PARSE_ERR;
 			ps.opt_ttl_value = (unsigned char)optval;
 			break;
 		case 'v':
@@ -46,24 +46,24 @@ int parse_cmdline(int argc, char **argv){
 			break;
 		default:
 			usage();
-			return ERR;
+			return PARSE_ERR;
 		}
 	}
 	argc -= optind;
 	argv += optind;
 	if(!argc){
 		printf("usage error: Destination address required\n");
-		return ERR;
+		return PARSE_ERR;
 	}
 	ps.dest = strdup(argv[argc - 1]);
 	if(!ps.dest){
 		printf("memory allocation failed\n");
-		return ERR;
+		return PARSE_ERR;
 	}
 	if(outpack_fill){
 		int err = fill(outpack_fill, ps.pattern, ps.datalen);
 		if(err)
-			return ERR;
+			return PARSE_ERR;
 		free(outpack_fill);
 	}
 	return OK;
