@@ -16,6 +16,6 @@ int main(int argc, char *argv[])
 	memset(ps.pattern, 0xd1, 84);
 	gettimeofday(&ps.start, NULL);
 /*---------------*/
-	parsing(argc, argv);
+	starting(argc, argv);
 	return 0;
 }

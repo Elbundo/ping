@@ -8,6 +8,8 @@
 #include <netinet/ip6.h>
 #include <netinet/icmp6.h>
 
+#define _(STR) (STR)
+
 #define BUFSIZE 1500
 #define OK 0
 

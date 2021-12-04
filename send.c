@@ -1,5 +1,6 @@
 #include "send.h"
 #include "recv.h"
+#include "logger.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h> 
@@ -25,6 +26,8 @@ void finalize(int s)
 	printf("\n");
 	printf("--- %s ping statistics ---\n", ps.dest);
 	printf("%ld packets transmitted, %ld received, %d%% packet loss, time %ldms\n", ps.ntransmitted, ps.nreceived, percent, time);
+	write_log("OK", "The program completed correctly");
+	close_log();
 	exit(0);
 }
 
