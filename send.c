@@ -12,7 +12,7 @@ void sig_alarm(int s)
 		set_timer();
 }
 
-void finalize(int s)
+void get_statistics(int s)
 {
 	int percent = 100*((ps.ntransmitted - ps.nreceived) / ps.ntransmitted);
 	struct timeval end;
@@ -22,8 +22,7 @@ void finalize(int s)
 	printf("--- %s ping statistics ---\n", ps.dest);
 	printf("%ld packets transmitted, %ld received, %d%% packet loss, time %ldms\n", ps.ntransmitted, ps.nreceived, percent, time);
 	write_log("OK", "The program completed correctly");
-	close_log();
-	exit(0);
+	finalize();
 }
 
 void send4_echo()

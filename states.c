@@ -22,9 +22,11 @@ void parsing(int argc, char *argv[])
 		break;
 	case PARSE_ERR:
 		write_log("PARSE_ERR", _("Parsing error"));
+		finalize();
 		break;
 	case QUIT:
 		write_log("OK", _("The program completed correctly"));
+		finalize();
 		break;
 	}
 }
@@ -39,12 +41,15 @@ void getting_ip()
 		break;
 	case GETIP_FAIL:
 		write_log("GETIP_FAIL", _("Couldn't get the address"));
+		finalize();
 		break;
 	case CVRTIP_FAIL:
 		write_log("CVRT_FAIL", _("Failed to convert the address"));
+		finalize();
 		break;
 	case UNKN_FAMILY:
 		write_log("UNKN_FAMILY", _("Unknown address family"));
+		finalize();
 		break;
 	}
 }
@@ -58,9 +63,11 @@ void creating_sock_and_send_first()
 		receiving_and_processing();
 	case CRTSOCK_FAIL:
 		write_log("CRTSOCK_FAIL", _("Failed to create socket"));
+		finalize();
 		break;
 	case SETOPT_FAIL:
 		write_log("SETOPT_FAIL", _("Failed to set options"));
+		finalize();
 		break;
 	}
 }
@@ -71,6 +78,7 @@ void receiving_and_processing()
 	switch(readloop()){
 	case 1:
 		write_log("err", _("Something is wrong!"));
+		finalize();
 		break;
 	}
 }

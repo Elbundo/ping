@@ -2,14 +2,13 @@
 
 int get_ipaddress()
 {
-	struct addrinfo *ai;
-	ai = host_serv(ps.dest);
-	if(!ai)
+	ps.ai = host_serv(ps.dest);
+	if(!ps.ai)
 		return GETIP_FAIL;
 	char *h;
-	if((h = sock_ntop_host(ai->ai_addr, ai->ai_addrlen)) == NULL)
+	if((h = sock_ntop_host(ps.ai->ai_addr, ps.ai->ai_addrlen)) == NULL)
 		return CVRTIP_FAIL;
-	if(ai->ai_family == AF_INET){
+	if(ps.ai->ai_family == AF_INET){
 		ps.send = send4_echo;
 		ps.proc = proc4;
 		ps.icmpproto = IPPROTO_ICMP;
@@ -23,10 +22,10 @@ int get_ipaddress()
 	}*/ else{
 		return UNKN_FAMILY;
 	}
-	ps.sasend = ai->ai_addr;
-	ps.sarecv = calloc(1, ai->ai_addrlen);
-	ps.salen = ai->ai_addrlen;
-	printf("PING %s (%s): %d data bytes\n", ai->ai_canonname ? ai->ai_canonname : h, h, ps.datalen);
+	ps.sasend = ps.ai->ai_addr;
+	ps.sarecv = calloc(1, ps.ai->ai_addrlen);
+	ps.salen = ps.ai->ai_addrlen;
+	printf("PING %s (%s): %d data bytes\n", ps.ai->ai_canonname ? ps.ai->ai_canonname : h, h, ps.datalen);
 	return 0;
 }
 
@@ -45,7 +44,7 @@ int create_and_send(int family, int type, int protocol)
 	}
 	setuid(getuid());
 	signal(SIGALRM, sig_alarm);
-	signal(SIGINT, finalize);
+	signal(SIGINT, get_statistics);
 	build_icmphdr();
 	sig_alarm(SIGALRM);
 	return 0;

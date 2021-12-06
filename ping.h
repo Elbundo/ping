@@ -33,6 +33,7 @@ struct ping_state{
 	int sockfd;
 	char *dest;
 	int datalen;
+	struct addrinfo *ai;
 
 	long ntransmitted;
 	long nreceived;
@@ -59,5 +60,7 @@ struct ping_state{
 };
 
 extern struct ping_state ps;
+
+void finalize();
 
 #endif

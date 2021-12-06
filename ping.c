@@ -13,3 +13,13 @@ int main(int argc, char *argv[])
 	starting(argc, argv);
 	return 0;
 }
+
+void finalize()
+{
+	free(ps.dest);
+	free(ps.sarecv);
+	freeaddrinfo(ps.ai);
+	close_log();
+	close(ps.sockfd);
+	exit(0);
+}

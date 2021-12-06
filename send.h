@@ -9,7 +9,7 @@
 
 void all_for_send();
 void sig_alarm(int);
-void finalize(int);
+void get_statistics(int);
 void build_icmphdr();
 void send4_echo();
 void set_timer();

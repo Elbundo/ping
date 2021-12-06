@@ -28,7 +28,7 @@ int readloop()
 		gettimeofday(&tval, NULL);
 		(*ps.proc)(recvbuf, n, &msg, &tval);
 		if(ps.opt_limpack && ps.ntransmitted == ps.opt_npackets)
-			finalize(SIGINT);
+			get_statistics(SIGINT);
 	}
 	return 1;
 }
