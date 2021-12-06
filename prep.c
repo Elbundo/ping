@@ -1,5 +1,4 @@
 #include "prep.h"
-#include <stdio.h>
 
 int parse_cmdline(int argc, char **argv){
 	int opt;

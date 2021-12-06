@@ -3,14 +3,9 @@
 
 #include <strings.h>
 #include <stddef.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/socket.h>
 #include <netdb.h>
-#include <stdlib.h>
 
 #include "ping.h"
-#include "recv.h"
 
 int send_first();
 int get_ipaddress();

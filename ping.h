@@ -1,12 +1,28 @@
 #ifndef PING_H_SENTRY
 #define PING_H_SENTRY
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <signal.h>
+#include <time.h>
+
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <netinet/ip_icmp.h>
+#include <netinet/ip.h>
 #include <arpa/inet.h>
-#include <sys/time.h>
 #include <netinet/ip6.h>
 #include <netinet/icmp6.h>
+
+#include "prep.h"
+#include "setsock.h"
+#include "recv.h"
+#include "send.h"
+#include "states.h"
+#include "logger.h"
 
 #define _(STR) (STR)
 
@@ -15,7 +31,13 @@
 
 struct ping_state{
 	int sockfd;
-/*protocol setup*/
+	char *dest;
+	int datalen;
+
+	long ntransmitted;
+	long nreceived;
+	struct timeval start;
+/*-------protocol setup-------*/
 	void (*proc)(char*, ssize_t, struct msghdr*, struct timeval*);
 	void (*send)(void);
 	void (*init)(void);
@@ -25,15 +47,7 @@ struct ping_state{
 	socklen_t salen;
 
 	int icmpproto;
-/*--------------*/
-	char *dest;
-	int datalen;
-
-	long ntransmitted;
-	long nreceived;
-	struct timeval start;
-
-//--------Options-------
+/*--------Options-------*/
 	long opt_npackets;
 	int opt_interval;
 	unsigned char opt_ttl_value;
@@ -42,7 +56,6 @@ struct ping_state{
 		opt_ttl:1,
 		opt_limpack:1,
 		opt_quiet:1;
-//----------------------
 };
 
 extern struct ping_state ps;

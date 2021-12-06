@@ -16,4 +16,5 @@ endif
 deps.mk: $(SRCMODULES)
 	$(CC) -MM $^ > $@
 
-clean: rm -f *.o ping
+clean:
+	rm -f *.o deps.mk ping

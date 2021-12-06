@@ -2,8 +2,7 @@
 
 void starting(int argc, char*argv[])
 {
-	switch(create_log())
-	{
+	switch(create_log()){
 	case OK:
 		write_log("OK", _("Log file has been created"));
 		parsing(argc, argv);

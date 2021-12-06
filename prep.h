@@ -1,11 +1,8 @@
 #ifndef PREP_H_SENTRY
 #define PREP_H_SENTRY
 
-#include <stdlib.h>
-#include <unistd.h>
 #include <limits.h>
 #include <float.h>
-#include <errno.h>
 #include <error.h>
 #include <math.h>
 #include <string.h>

@@ -1,12 +1,8 @@
 #ifndef SEND_H_SENTRY
 #define SEND_H_SENTRY
 
-#include <netinet/ip.h>
-#include <netinet/ip_icmp.h>
 #include <string.h>
 #include <stddef.h>
-#include <sys/time.h>
-#include <unistd.h>
 
 #include "ping.h"
 

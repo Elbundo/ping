@@ -1,10 +1,4 @@
 #include "setsock.h"
-#include "send.h"
-#include "recv.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
 
 int get_ipaddress()
 {
@@ -43,11 +37,12 @@ int create_and_send(int family, int type, int protocol)
 		perror("socket");
 		return CRTSOCK_FAIL;
 	}
-	if(ps.opt_ttl)
+	if(ps.opt_ttl){
 		if(setsockopt(ps.sockfd, IPPROTO_IP, IP_TTL, &ps.opt_ttl_value, sizeof(ps.opt_ttl_value)) == -1){
 			perror("set socket option");
 			return SETOPT_FAIL;
 		}
+	}
 	setuid(getuid());
 	signal(SIGALRM, sig_alarm);
 	signal(SIGINT, finalize);

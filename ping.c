@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "ping.h"
-#include "prep.h"
-#include "setsock.h"
-#include "states.h"
 
 struct ping_state ps = {0};
 

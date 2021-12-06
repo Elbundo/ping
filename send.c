@@ -1,9 +1,4 @@
 #include "send.h"
-#include "recv.h"
-#include "logger.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h> 
 
 char sendbuf[BUFSIZE];
 int len;
