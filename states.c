@@ -8,7 +8,9 @@ void starting(int argc, char*argv[])
 		parsing(argc, argv);
 		break;
 	case LOG_ERR:
-		exit(1);
+		printf("Couldn't create log file\n");
+		parsing(argc, argv);
+		break;
 	}
 }
 
