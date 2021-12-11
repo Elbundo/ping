@@ -100,7 +100,7 @@ int strtol_or_err(long *num, const char *str, const char *errmsg, const long min
 	}
 
 	if(*num < min || *num > max){
-		printf("%s: '%s': out of range: %lu <= value <= %lu", errmsg, str, min, max);
+		printf("%s: '%s': out of range: %lu <= value <= %lu\n", errmsg, str, min, max);
 		return 3;
 	}
 	
