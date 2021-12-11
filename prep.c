@@ -88,14 +88,14 @@ int strtol_or_err(long *num, const char *str, const char *errmsg, const long min
 	char *end = NULL;
 
 	if(str == NULL || *str == '\0'){
-		printf("%s: '%s'", errmsg, str);
+		printf("%s: '%s'\n", errmsg, str);
 		return 1;
 	}
 
 	*num = strtol(str, &end, 10);
 
 	if(errno || str == end || (end && *end)){
-		printf("%s: '%s'", errmsg, str);
+		printf("%s: '%s'\n", errmsg, str);
 		return 2;
 	}
 
@@ -112,14 +112,14 @@ int strtod_or_err(double *num, const char *str, const char *errmsg, const double
 	char *end = NULL;
 
 	if(str == NULL || *str == '\0'){
-		printf("%s: '%s'", errmsg, str);
+		printf("%s: '%s'\n", errmsg, str);
 		return 1;
 	}
 
 	*num = strtod(str, &end);
 	
 	if(errno || str == end || (end && *end)){
-		printf("%s: '%s'", errmsg, str);
+		printf("%s: '%s'\n", errmsg, str);
 		return 2;
 	}
 
@@ -128,12 +128,12 @@ int strtod_or_err(double *num, const char *str, const char *errmsg, const double
 		case FP_ZERO:
 			break;
 		default:
-			printf("%s: '%s'", errmsg, str);
+			printf("%s: '%s'\n", errmsg, str);
 			return 3;
 	}
 
 	if(*num < min || *num > max){
-		printf("%s: '%s': out of range: %lf <= value <= %lf", errmsg, str, min, max);
+		printf("%s: '%s': out of range: %lf <= value <= %lf\n", errmsg, str, min, max);
 		return 4;
 	}
 	
@@ -149,7 +149,7 @@ int fill(char *patp, unsigned char *packet, size_t packet_size)
 	unsigned char *bp = packet + 8;
 	for (cp = patp; *cp; cp++) {
 		if (!isxdigit(*cp)){
-			printf("patterns must be specified as hex digits: %s", cp);
+			printf("patterns must be specified as hex digits: %s\n", cp);
 			return 1;
 		}
 	}
